@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'">
+<title>Security — AT Informatics</title>
+<meta name="description" content="Security model and vulnerability disclosure policy.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0b0c">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://atinformatics.com/legal/security.html">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230b0b0c'/><rect x='6' y='14' width='4' height='4' fill='%23ff8a3d'/><rect x='13' y='9' width='4' height='14' fill='%23ff8a3d'/><rect x='20' y='12' width='4' height='8' fill='%23ff8a3d'/></svg>">
+<meta property="og:title" content="Security — AT Informatics">
+<meta property="og:description" content="Security model and vulnerability disclosure policy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://atinformatics.com/legal/security.html">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="mark"></span><b>AT</b> Informatics</a>
+    <nav class="nav" aria-label="Main">
+      <a href="../services/">Services</a>
+      <a href="../products/">Products</a>
+      <a href="../legal/security.html" aria-current="page">Security</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+  <div class="wrap doc">
+    <nav class="doc-nav" aria-label="Legal documents">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="eula.html">Licence</a>
+    <a href="licenses.html">Third-party</a>
+    <a href="security.html" aria-current="page">Security</a>
+    </nav>
+    <h1>Security</h1>
+    <p class="doc-meta">How these tools are built, what they can reach, and how
+    to report a problem &middot; last updated 01 October 2026</p>
+<div class="callout">
+    <p><strong>Found something? Email
+    <a href="mailto:aftertimetechnologies@gmail.com">aftertimetechnologies@gmail.com</a>.</strong>
+    You will get a human reply within 5 working days. We will not take legal action
+    against anyone who reports a problem in good faith under the terms below.</p>
+  </div>
+
+  <h2>1. The short version</h2>
+  <p>AfterTime is desktop software. There is no AfterTime server, no account and no
+  database of customers, because there is nothing for us to hold. The realistic
+  risks are therefore local ones: what the software can read on your machine, what
+  it can change in your projects, and what it sends if you deliberately connect it
+  to a cloud AI provider.</p>
+
+  <h2>2. Architecture, in security terms</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Component</th><th>Runs</th><th>Reaches</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Application</td>
+        <td>On your computer, under your user account</td>
+        <td>Your REAPER project, its media files, and its own install folder</td>
+      </tr>
+      <tr>
+        <td>REAPER bridge</td>
+        <td>Inside REAPER, as a script REAPER loads</td>
+        <td>The REAPER project you have open, through REAPER&rsquo;s own scripting API</td>
+      </tr>
+      <tr>
+        <td>Local interface</td>
+        <td>A server bound to your own machine</td>
+        <td>Not exposed to your network or the internet</td>
+      </tr>
+      <tr>
+        <td>Cloud AI provider</td>
+        <td>Only if you configure one</td>
+        <td>Receives <strong>text</strong> about your session. Never audio. See <a href="privacy.html">Privacy</a>.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>3. What the installer does, and does not do</h2>
+  <ul>
+    <li><strong>No Administrator or root.</strong> Everything is installed under your
+    own user account. An installer that asks for elevation is an installer that can
+    do anything, and this one does not need to.</li>
+    <li><strong>An isolated runtime.</strong> Dependencies are installed into a
+    virtual environment belonging to AfterTime, not into your system Python.</li>
+    <li><strong>It copies one script into REAPER</strong> and adds a clearly marked
+    block to REAPER&rsquo;s startup file. The block is spliced in between named
+    markers, so anything else in that file is preserved, and the uninstaller removes
+    exactly that block and nothing else.</li>
+    <li><strong>It refuses to ship the wrong files.</strong> The packaging step has a
+    size budget and an exclusion list, and it aborts rather than continue if the
+    payload is unexpectedly large. That check exists because it caught a real
+    mistake: a hidden virtual environment that would have bundled 441 MB of
+    unrelated compiled libraries into a 10 MB package.</li>
+    <li><strong>It verifies afterwards.</strong> The install is re-read from disk and
+    fails loudly if the bridge is missing, the startup block did not land, the
+    dependencies do not import, or <strong>the application itself does not
+    start</strong>. That last check was added after an install passed every
+    other test and the product could not boot.</li>
+  </ul>
+
+  <h2>4. Your credentials</h2>
+  <p>If you configure a cloud AI provider you supply your own API key. It is stored
+  in AfterTime&rsquo;s settings on your machine, in your user account, and is sent
+  only to that provider. We never receive it, because there is nowhere for it to be
+  sent to. Anyone with access to your user account can read it &mdash; the same as
+  any other application&rsquo;s settings &mdash; so use full-disk encryption and do
+  not share a login.</p>
+
+  <h2>5. Actions that change your work</h2>
+  <p>Security for a tool like this is mostly about not destroying something
+  irreplaceable. The rules the software follows:</p>
+  <ul>
+    <li>Every change is a single REAPER undo step.</li>
+    <li>Anything that writes asks first, and shows what it will do.</li>
+    <li>The software checks it is operating on the project you meant, and refuses
+    if the session has changed since it last measured.</li>
+    <li>It never deletes audio.</li>
+    <li>After writing, it reads the result back out of REAPER instead of trusting
+    its own return value.</li>
+  </ul>
+  <p>None of that replaces your own backups. Keep them.</p>
+
+  <h2>6. Supply chain</h2>
+  <p>AfterTime depends on open-source Python libraries, all pinned to minimum
+  versions and listed with their licences on the
+  <a href="licenses.html">third-party licences</a> page. Dependencies are installed
+  from the Python Package Index at install time. We do not vendor binaries we have
+  not built, and we deliberately exclude GPL-licensed components that we would not
+  be permitted to distribute.</p>
+
+  <h2>7. This website</h2>
+  <p>This site is static HTML and CSS served by GitHub Pages.</p>
+  <ul>
+    <li><strong>No third-party requests.</strong> No fonts, scripts, analytics,
+    trackers or embeds from any other host. Everything is served from this
+    domain &mdash; open your browser&rsquo;s network panel and check.</li>
+    <li><strong>No cookies, no local storage, no JavaScript.</strong></li>
+    <li>A Content-Security-Policy of <code>default-src 'self'</code> with
+    <code>script-src 'none'</code>, delivered in a <code>&lt;meta&gt;</code> tag.</li>
+  </ul>
+  <p><strong>Being accurate about what that does and does not cover.</strong>
+  This site is hosted on GitHub Pages, which serves static files and gives us no
+  way to set HTTP response headers. We checked what it actually sends rather
+  than assuming, and the honest position is:</p>
+  <ul>
+    <li><strong>HTTPS is enforced</strong> and plain HTTP is redirected to it
+    with a 301, on a valid certificate. That part is real and you can verify it.</li>
+    <li><strong>There is no HSTS header.</strong> We previously said GitHub sets
+    one once HTTPS is enforced. We measured the live response and it does not.
+    The practical effect: the very first visit a browser makes over
+    <code>http://</code> is redirected rather than prevented.</li>
+    <li><strong>There is no <code>X-Content-Type-Options: nosniff</code></strong>,
+    and no <code>X-Frame-Options</code> or <code>Permissions-Policy</code>, because
+    those are header-only and cannot be set on this host.</li>
+    <li><code>frame-ancestors</code> is <strong>deliberately absent</strong> from
+    the policy. The HTML specification ignores that directive when a policy is
+    delivered by <code>&lt;meta&gt;</code>, so including it would look like
+    clickjacking protection while doing nothing.</li>
+  </ul>
+  <p>What the meta policy does enforce is the part that matters most here:
+  <code>script-src 'none'</code> on a site that has no JavaScript, and
+  <code>default-src 'self'</code> on a site that makes no third-party requests.</p>
+  <p>Configuration for the full header set is kept in the repository
+  (<code>_headers</code>, <code>.htaccess</code>, <code>nginx.conf.snippet</code>)
+  so it is ready if this ever moves to a host that supports headers. On GitHub
+  Pages those files are inert, and saying so is the point.</p>
+
+  <h2>8. Reporting a vulnerability</h2>
+  <p>Email <a href="mailto:aftertimetechnologies@gmail.com">aftertimetechnologies@gmail.com</a>.
+  Please include what you found, how to reproduce it, and what you think the impact
+  is. A proof of concept helps.</p>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Stage</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>Acknowledgement</td><td>5 working days</td></tr>
+      <tr><td>Initial assessment</td><td>10 working days</td></tr>
+      <tr><td>Fix or documented mitigation</td><td>90 days, sooner where we can</td></tr>
+      <tr><td>Public credit</td><td>If you want it, on release</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Safe harbour</h3>
+  <p>If you make a good-faith effort to follow this policy, we will treat your
+  research as authorised, will not pursue or support legal action against you, and
+  will work with you to resolve the issue. In return, please:</p>
+  <ul>
+    <li>Test only against your own installation.</li>
+    <li>Do not access, modify or destroy anyone else&rsquo;s data.</li>
+    <li>Do not run denial-of-service tests, spam, or social-engineering attacks
+    against us or our users.</li>
+    <li>Give us a reasonable chance to fix the issue before disclosing it publicly.</li>
+  </ul>
+  <p>We do not currently run a paid bug bounty. We would rather say so than imply
+  one.</p>
+
+  <h2>9. Out of scope</h2>
+  <ul>
+    <li>Vulnerabilities in REAPER itself &mdash; report those to Cockos.</li>
+    <li>Vulnerabilities in third-party plugins or AI providers &mdash; report those
+    to their authors.</li>
+    <li>Attacks that require an attacker to already have access to your user account.
+    If someone is running code as you, the game is already over.</li>
+    <li>Missing security headers on this static site that have no exploit path.</li>
+  </ul>
+
+  <h2>10. What we do not claim</h2>
+  <p>AfterTime has not had an external security audit. It is beta software written
+  by a very small team. The statements on this page describe how it is built and
+  what we have checked; they are not a guarantee that it is free of defects. Where
+  we have not verified something, we say so &mdash; the Windows build is the current
+  example, and it is marked as untested on the <a href="../products/aftertime/#install">install
+  page</a> for exactly that reason.</p>
+
+  </div>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="../index.html"><span class="mark"></span><b>AT</b> Informatics</a>
+        <p class="about">AI automation, software and music production. Everything
+        we build measures what it did and tells you when it is not sure.</p>
+      </div>
+      <div><h4>Services</h4><ul><li><a href="../services/automation/">AI automation</a></li><li><a href="../services/websites/">Websites</a></li><li><a href="../services/music/">Music production</a></li></ul></div>
+      <div><h4>Products</h4><ul><li><a href="../products/aftertime/">AfterTime</a></li><li><a href="../products/payroll/">Payroll</a></li><li><a href="../products/cognition/">Cognition</a></li></ul></div>
+      <div><h4>Legal</h4><ul>
+        <li><a href="../legal/terms.html">Terms</a></li>
+        <li><a href="../legal/privacy.html">Privacy</a></li>
+        <li><a href="../legal/eula.html">Licence</a></li>
+        <li><a href="../legal/licenses.html">Third-party</a></li>
+        <li><a href="../legal/security.html">Security</a></li>
+      </ul></div>
+    </div>
+    <p class="legal-line">&copy; 2026 AT Informatics<br>
+    Automation &amp; websites <a href="mailto:aftertimetechnologies@gmail.com">aftertimetechnologies@gmail.com</a> &middot;
+    Music <a href="mailto:atijeans757@gmail.com">atijeans757@gmail.com</a> &middot;
+    Products <a href="mailto:aftertimetechnologies@gmail.com">aftertimetechnologies@gmail.com</a><br>
+    REAPER is a trademark of Cockos Incorporated; AT Informatics is not affiliated with Cockos.<br>
+    This site makes no third-party requests, sets no cookies and runs no JavaScript.</p>
+  </div>
+</footer>
+</body>
+</html>
