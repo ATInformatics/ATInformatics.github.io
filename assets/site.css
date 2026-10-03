@@ -271,7 +271,12 @@ tr:last-child td{border-bottom:0}
 @media (hover:hover) and (pointer:fine){ .sf a.cell:hover{background:#162116} }
 .sf .s-live{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
 .sf-logo{display:block;height:auto}
-.sf-mark{width:clamp(220px,34vw,460px);margin-bottom:var(--s5)}
+/* The mark IS the hero. It sits left, where the frog photo used to carry the
+   frame, and it is the first thing read -- so it is sized against the viewport
+   height as well as the width, or it shrinks to a badge on a laptop. */
+.sf-mark{width:clamp(320px,46vw,680px);max-height:62vh;object-fit:contain;
+  object-position:left center;margin-bottom:var(--s4)}
+.sf-footer-mark{width:clamp(200px,24vw,320px);margin-bottom:var(--s4);opacity:.9}
 .sf .nav .sf-logo{height:26px;width:auto}
 /* The stage-lights wash behind the studio's prices. His image, duotoned onto
    the Swamp Frog ramp: the violet original has near-white hotspots that read
