@@ -12,7 +12,10 @@
  *
  * THE GOLD TRAP. The artwork's bright gold #d4af6a measures 1.9:1 on paper and
  * FAILS outright as text. It survives as graphics only. Anything readable uses
- * #8a6414 (4.88:1). This was caught by measuring, not by looking.
+ * #866113. This was caught by measuring, not by looking -- and deepened again
+ * on 2026-10-03, from #8a6414, because the repaired checker showed gold links
+ * on a raised surface at 4.32:1. Four points of lightness, hue unchanged at
+ * 40.7 degrees.
  *
  * NO SCROLL-ZOOM, EVER. A previous build scaled the page as you scrolled; the
  * founder reported vertigo and wanting to leave. Motion lives in the looping
@@ -32,7 +35,7 @@
 :root{
   /* measured, see the header */
   --text:#15181a;  --bg:#f2ece0;  --surface:#ede6d9;
-  --primary:#8a6414; --accent:#b07d12; --border:#d4cdc0; --on-primary:#faf6ec;
+  --primary:#866113; --accent:#b07d12; --border:#d4cdc0; --on-primary:#faf6ec;
   --muted:#5d625c;
   --ink-soft:#6f746d;
 
@@ -270,6 +273,15 @@ tr:last-child td{border-bottom:0}
 .sf-logo{display:block;height:auto}
 .sf-mark{width:clamp(220px,34vw,460px);margin-bottom:var(--s5)}
 .sf .nav .sf-logo{height:26px;width:auto}
+/* The stage-lights wash behind the studio's prices. His image, duotoned onto
+   the Swamp Frog ramp: the violet original has near-white hotspots that read
+   1.01:1 against the body text, and darkening it far enough to be legible
+   left no violet worth having. Measured worst case here is 5.10:1. */
+.sf .chapter.lit{position:relative;isolation:isolate}
+.sf .chapter.lit::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:url(img/stagelights.webp) center/cover no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,#000,rgba(0,0,0,.35) 70%,transparent);
+  mask-image:linear-gradient(180deg,#000,rgba(0,0,0,.35) 70%,transparent)}
 .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--s5);padding:0;list-style:none}
 .tags li{border:1px solid rgba(156,204,60,.46);color:#cfe8a6;padding:8px 15px;
   border-radius:999px;font-size:.85rem}
