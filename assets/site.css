@@ -250,7 +250,7 @@ footer{padding:var(--s7) 0 var(--s6);border-top:1px solid var(--border);
   color:var(--muted);font-size:.9rem}
 footer .cols{display:grid;gap:var(--s6)}
 @media(min-width:900px){footer .cols{grid-template-columns:2fr 1fr 1fr 1fr}}
-footer h4{font:700 10px/1 ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;
+footer h2{font:700 10px/1 ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;
   color:var(--ink-soft);margin:0 0 var(--s4)}
 footer ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
 footer a{color:var(--muted)}
