@@ -44,6 +44,10 @@
   --s2:8px; --s3:12px; --s4:20px; --s5:32px; --s6:52px; --s7:84px; --s8:136px;
 
   --r-sm:6px; --r-md:12px; --r-lg:22px;
+
+  /* The fixed nav's own height: 16px padding, top and bottom, around a 26px
+     logo. Anything that must not sit under the nav reserves this. */
+  --nav-h:58px;
   --ease:cubic-bezier(.22,.8,.2,1);
   --measure:52ch;
 }
@@ -96,8 +100,14 @@ p{margin:0}
 
 /* ───────────────────────────── hero ─────────────────────────────
    Full bleed. The plate IS the page, not an object floating on it. */
+/* padding-top is not decoration. The nav is position:fixed and the hero is
+   bottom-justified, so on a short viewport the content grows UPWARD, under
+   the nav, and overflow:hidden clips it. On an S20FE the frog's eye was cut
+   off; on a taller screen there was room and nothing looked wrong. Reserve
+   the nav's height and it cannot happen at any size. */
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;
-  justify-content:flex-end;overflow:hidden;isolation:isolate}
+  justify-content:flex-end;overflow:hidden;isolation:isolate;
+  padding-top:var(--nav-h)}
 .hero video,.hero>img{position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;z-index:-2}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
@@ -110,8 +120,6 @@ p{margin:0}
 .herorow{display:flex;align-items:flex-end;justify-content:space-between;
   gap:var(--s6);flex-wrap:wrap}
 .hero .lede{max-width:36ch}
-.cue{display:flex;align-items:center;gap:12px;color:var(--muted)}
-.cue i{display:block;width:54px;height:1px;background:var(--primary)}
 
 /* a shorter hero for inner pages: no video, just air and a title */
 .pagehead{padding:clamp(7rem,13vh,10rem) 0 var(--s7);border-bottom:1px solid var(--border)}
@@ -300,8 +308,19 @@ tr:last-child td{border-bottom:0}
 /* The mark IS the hero. It sits left, where the frog photo used to carry the
    frame, and it is the first thing read -- so it is sized against the viewport
    height as well as the width, or it shrinks to a badge on a laptop. */
-.sf-mark{width:clamp(320px,46vw,680px);max-height:62vh;object-fit:contain;
-  object-position:center;margin:0 auto var(--s4)}
+/* The music hero centres its whole block rather than pinning it to the
+   bottom, which is what lifts the mark up the frame instead of leaving it
+   sitting low. */
+.sf .hero{justify-content:center}
+.sf .hero .wrap{padding-bottom:0}
+.sf-mark{width:clamp(300px,44vw,760px);max-height:52vh;object-fit:contain;
+  object-position:center;margin:0 auto var(--s5)}
+/* On a phone the mark competes with the headline and the lede for a viewport
+   that is already short. Measured on a 360x800 S20FE: at 52vh the stack
+   overflowed by about 45px, which is exactly where the eye was being cut. */
+@media (max-width:760px){
+  .sf-mark{width:min(80vw,420px);max-height:34vh;margin-bottom:var(--s4)}
+}
 .sf-footer-mark{width:clamp(200px,24vw,320px);margin-bottom:var(--s4);opacity:.9}
 .sf .nav .sf-logo{height:26px;width:auto}
 /* The stage-lights wash behind the studio's prices. His image, duotoned onto

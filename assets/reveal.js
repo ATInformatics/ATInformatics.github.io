@@ -31,3 +31,19 @@
     io.observe(el);
   });
 })();
+
+/* One track at a time.
+   Native <audio controls> elements do not know about each other: clicking
+   play on a second track leaves the first one playing and you hear both.
+   'play' does not bubble, so this listens in the CAPTURE phase on document,
+   which is the only way one handler can see every player on the page. */
+(function () {
+  document.addEventListener("play", function (e) {
+    var started = e.target;
+    if (!started || started.tagName !== "AUDIO") return;
+    var all = document.querySelectorAll("audio");
+    for (var i = 0; i < all.length; i++) {
+      if (all[i] !== started && !all[i].paused) all[i].pause();
+    }
+  }, true);
+})();
