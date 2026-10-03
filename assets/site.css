@@ -298,3 +298,27 @@ tr:last-child td{border-bottom:0}
 .track b{font-weight:700;font-size:1.08rem;letter-spacing:-.02em}
 .track span{color:var(--ink-soft)}
 .track audio{width:100%;height:36px}
+
+/* A single line of figures. The four bordered boxes read as filler and the
+   column beside them was a wall of text; this is the same information at a
+   glance. */
+.figrow{display:flex;flex-wrap:wrap;gap:var(--s5) var(--s6);margin-top:var(--s6);
+  padding-top:var(--s5);border-top:1px solid var(--border)}
+.figrow>div{min-width:5.5rem}
+.figrow b{display:block;font-size:clamp(1.5rem,2.4vw,2.1rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1;color:var(--primary)}
+.figrow span{display:block;margin-top:7px;color:var(--ink-soft);font-size:.82rem;
+  line-height:1.35}
+
+/* Problem, then the rule that answers it. Reading the failure first is what
+   makes the rule land; a rule on its own is a slogan. */
+.probs{border-top:1px solid var(--border)}
+.prob{display:grid;gap:10px;padding:var(--s5) 0;border-bottom:1px solid var(--border)}
+@media(min-width:900px){.prob{grid-template-columns:1fr 1fr;gap:var(--s6);align-items:start}}
+.prob .pq{font-size:clamp(1.05rem,1.5vw,1.3rem);font-weight:700;letter-spacing:-.025em;
+  line-height:1.35;color:var(--text)}
+.prob .pa{font-weight:700;color:var(--primary);line-height:1.45}
+.prob .pa .mono{display:block;color:var(--ink-soft);margin-bottom:7px}
+.prob .ph{grid-column:1/-1;color:var(--muted);font-size:.95rem;line-height:1.55;
+  max-width:70ch}
+@media(min-width:900px){.prob .ph{grid-column:2}}
