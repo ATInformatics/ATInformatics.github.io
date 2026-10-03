@@ -384,3 +384,18 @@ tr:last-child td{border-bottom:0}
 .prob .ph{grid-column:1/-1;color:var(--muted);font-size:.95rem;line-height:1.55;
   max-width:70ch}
 @media(min-width:900px){.prob .ph{grid-column:2}}
+
+/* CV language toggle (unlisted page only). Fixed pill, two buttons.
+   Measured: --muted on --surface clears 3:1 for the inactive label; the
+   active button is on-primary on --primary, the same pair the primary button
+   already passes. */
+.cv-langbar{position:fixed;top:12px;right:12px;z-index:60;display:flex;gap:3px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:999px;padding:3px;box-shadow:0 1px 3px rgba(21,24,26,.12)}
+.cv-langbar button{font-family:inherit;font-weight:700;font-size:.78rem;
+  letter-spacing:.04em;color:var(--muted);background:none;border:0;
+  border-radius:999px;padding:6px 12px;cursor:pointer;line-height:1}
+.cv-langbar button[aria-pressed="true"]{background:var(--primary);
+  color:var(--on-primary)}
+.cv-langbar button:focus-visible{outline:2px solid var(--primary);
+  outline-offset:2px}
