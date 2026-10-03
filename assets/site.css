@@ -147,6 +147,9 @@ p{margin:0}
 @media (hover:hover) and (pointer:fine){ a.cell:hover{background:#fffdf7} }
 .cell .tag{color:var(--ink-soft);margin:0 0 var(--s4)}
 .cell h3{margin-bottom:10px}
+/* index-listing cards use h2 (top-level under the page h1, no section h2
+   between); match the h3 card title exactly so it is only a semantic change */
+.cell h2{font-size:clamp(1.25rem,1.9vw,1.75rem);letter-spacing:-.03em;margin-bottom:10px}
 .cell p{color:var(--muted);line-height:1.52;font-size:.98rem}
 
 .go{display:inline-flex;align-items:center;gap:10px;margin-top:var(--s5);color:var(--primary)}
@@ -273,6 +276,10 @@ footer a{color:var(--muted)}
 .doc pre{background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--primary);
   padding:1.1rem 1.25rem;overflow-x:auto;margin:0 0 1.3em}
 .doc pre code{background:none;border:0;padding:0}
+.doc .callout{background:var(--surface);border:1px solid var(--border);
+  border-left:2px solid var(--primary);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:1.1em 1.3em;margin:0 0 1.4em}
+.doc .callout p:last-child,.doc .callout ul:last-child{margin-bottom:0}
 .doc-meta{font:700 11px/1.7 ui-monospace,monospace;letter-spacing:.1em;color:var(--ink-soft);
   border-bottom:1px solid var(--border);padding-bottom:var(--s4);margin-bottom:var(--s6)}
 .doc-nav{display:flex;flex-wrap:wrap;gap:var(--s4);margin:0 0 var(--s6);
@@ -389,9 +396,9 @@ tr:last-child td{border-bottom:0}
    Measured: --muted on --surface clears 3:1 for the inactive label; the
    active button is on-primary on --primary, the same pair the primary button
    already passes. */
-.cv-langbar{position:fixed;top:12px;right:12px;z-index:60;display:flex;gap:3px;
+.cv-langbar{position:fixed;bottom:16px;right:16px;z-index:95;display:flex;gap:3px;
   background:var(--surface);border:1px solid var(--border);
-  border-radius:999px;padding:3px;box-shadow:0 1px 3px rgba(21,24,26,.12)}
+  border-radius:999px;padding:3px;box-shadow:0 2px 10px rgba(21,24,26,.18)}
 .cv-langbar button{font-family:inherit;font-weight:700;font-size:.78rem;
   letter-spacing:.04em;color:var(--muted);background:none;border:0;
   border-radius:999px;padding:6px 12px;cursor:pointer;line-height:1}
