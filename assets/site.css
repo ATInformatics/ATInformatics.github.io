@@ -147,6 +147,32 @@ p{margin:0}
 @media (hover:hover) and (pointer:fine){ a:hover .go::after{transform:scaleX(1)} }
 .pending{opacity:.5;cursor:default}
 
+/* ── CV only ──────────────────────────────────────────────────────────────
+   Three sections in a row of identical bordered cells read as one slab, and
+   you cannot tell where one ends. These two give 01 and 02 their own texture.
+
+   .creds  capability blocks. No box: a gold rule over each, and the items
+           size to their own content, so a short entry does not leave the
+           dead space a stretched flex cell leaves.
+   .dossier a document, not a card set. Label in the left rail, content in
+           the right, hairline between. Reads as a record because it is one. */
+.creds{display:grid;align-items:start;
+  gap:var(--s6) clamp(2rem,4vw,var(--s7));
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.creds>div{border-top:2px solid var(--primary);padding-top:var(--s4)}
+.creds h3{font-size:1.14rem;letter-spacing:-.02em;margin-bottom:10px}
+.creds p{color:var(--muted);line-height:1.55;font-size:.97rem}
+
+.dossier{border-top:1px solid var(--border)}
+.dossier>div{display:grid;gap:4px var(--s5);padding:var(--s5) 0;
+  border-bottom:1px solid var(--border);
+  grid-template-columns:minmax(150px,230px) minmax(0,1fr)}
+.dossier b{font-family:var(--mono,ui-monospace,SFMono-Regular,Menlo,monospace);
+  font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:500;padding-top:.3em}
+.dossier p{color:var(--text);line-height:1.6;font-size:1.02rem;max-width:62ch}
+@media (max-width:640px){ .dossier>div{grid-template-columns:1fr} }
+
 .rows{border-top:1px solid var(--border)}
 .row{display:grid;gap:6px;padding:var(--s5) 0;border-bottom:1px solid var(--border)}
 @media(min-width:800px){.row{grid-template-columns:12rem 1fr 10rem;gap:var(--s5);align-items:baseline}}
@@ -275,7 +301,7 @@ tr:last-child td{border-bottom:0}
    frame, and it is the first thing read -- so it is sized against the viewport
    height as well as the width, or it shrinks to a badge on a laptop. */
 .sf-mark{width:clamp(320px,46vw,680px);max-height:62vh;object-fit:contain;
-  object-position:left center;margin-bottom:var(--s4)}
+  object-position:center;margin:0 auto var(--s4)}
 .sf-footer-mark{width:clamp(200px,24vw,320px);margin-bottom:var(--s4);opacity:.9}
 .sf .nav .sf-logo{height:26px;width:auto}
 /* The stage-lights wash behind the studio's prices. His image, duotoned onto
