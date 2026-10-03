@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'">
+<title>A/B/X Booth: loudness-matched blind comparison</title>
+<style>
+/* A/B/X BOOTH
+ *
+ * "Louder sounds better" is the oldest bias in audio. Any honest comparison
+ * between two mixes, or your mix against a reference, must be loudness-matched
+ * and blind, or the ear picks the hotter file every single time.
+ *
+ * No mainstream DAW ships this workflow. That sentence is the product.
+ *
+ * Everything happens in the browser. The files never leave the machine: they
+ * are read with FileReader and decoded with Web Audio. There is no upload and
+ * no server, which is also why it works offline.
+ */
+:root{
+  --bg:#07090b; --panel:#0e1317; --line:#1d262c;
+  --ink:#e8f0ee; --dim:#8b9a9b; --faint:#5a686a;
+  --a:#4ad6a8; --b:#f2b134; --hot:#ff5c5c;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.wrap{width:min(1100px,92vw);margin:0 auto;padding:40px 0 80px}
+h1{margin:0;font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:-.035em;font-weight:800}
+h1 em{font-style:normal;color:var(--a)}
+.sub{color:var(--dim);margin:10px 0 0;max-width:62ch}
+.mono{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase}
+
+.slots{display:grid;gap:14px;margin:34px 0 0}
+@media(min-width:760px){.slots{grid-template-columns:1fr 1fr}}
+.slot{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;
+  min-height:168px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;transition:border-color .2s,background .2s;cursor:pointer}
+.slot.over{border-color:var(--a);background:#0f1a18}
+.slot.full{align-items:flex-start;text-align:left;justify-content:flex-start;cursor:default}
+.slot h3{margin:0 0 4px;font-size:1.05rem;letter-spacing:-.02em}
+.slot .tag{color:var(--faint);margin-bottom:12px}
+.slot .meta{font:12px/1.8 var(--mono);color:var(--dim)}
+.slot .meta b{color:var(--ink);font-weight:600}
+.slot[data-side=A] .tag{color:var(--a)}
+.slot[data-side=B] .tag{color:var(--b)}
+
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:26px 0 0}
+button{font:600 13px/1 inherit;padding:12px 20px;border-radius:9px;border:1px solid var(--line);
+  background:#121a1e;color:var(--ink);cursor:pointer;transition:.18s}
+button:hover:not(:disabled){border-color:var(--a);color:#fff}
+button:disabled{opacity:.35;cursor:not-allowed}
+button.primary{background:var(--a);border-color:var(--a);color:#05100c;font-weight:700}
+button.primary:hover:not(:disabled){background:#63e6bb}
+button.big{padding:26px 30px;font-size:1.1rem;font-weight:700;flex:1 1 180px}
+
+.stage{margin:30px 0 0;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;padding:26px}
+.stage.hidden{display:none}
+.trial{font:700 12px/1 var(--mono);letter-spacing:.2em;color:var(--faint)}
+.choices{display:flex;gap:12px;margin:18px 0 0;flex-wrap:wrap}
+.verdict{margin:22px 0 0;border-top:1px solid var(--line);padding-top:18px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+td b{color:var(--a)}
+.note{color:var(--faint);font-size:13px;margin-top:14px;line-height:1.55}
+.hot{color:var(--hot)}
+.ok{color:var(--a)}
+input[type=file]{display:none}
+.lufsrow{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px}
+.pill{font:600 11px/1 var(--mono);letter-spacing:.1em;border:1px solid var(--line);
+  border-radius:999px;padding:7px 12px;color:var(--dim)}
+footer{margin-top:52px;color:var(--faint);font-size:12.5px;line-height:1.7;
+  border-top:1px solid var(--line);padding-top:20px}
+</style>
+</head>
+<body>
+<a class="skip" href="#booth" style="position:absolute;left:-9999px">Skip to the booth</a>
+<main id="booth"><div class="wrap">
+  <h1>A/B/X <em>Booth</em></h1>
+  <p class="sub">Loudness-matched blind comparison. Drop two mixes, or your mix
+  and a reference. The booth matches their loudness, hides which is which, and
+  asks you to pick. Nothing is uploaded; the files never leave this machine.</p>
+
+  <div class="slots">
+    <div class="slot" data-side="A" id="slotA">
+      <p class="tag mono">Deck A</p><h3>Drop an audio file</h3>
+      <p class="meta">or click to choose</p>
+    </div>
+    <div class="slot" data-side="B" id="slotB">
+      <p class="tag mono">Deck B</p><h3>Drop the other one</h3>
+      <p class="meta">or click to choose</p>
+    </div>
+  </div>
+  <input type="file" id="fileA" accept="audio/*"><input type="file" id="fileB" accept="audio/*">
+
+  <div class="bar">
+    <button class="primary" id="start" disabled>Start blind test</button>
+    <button id="mode">Mode: A/B preference</button>
+    <button id="reset">Reset</button>
+  </div>
+  <div class="lufsrow" id="match"></div>
+
+  <section class="stage hidden" id="stage">
+    <p class="trial" id="trialLabel">Trial 1</p>
+    <p class="note" id="prompt">Play each one, then pick the one you prefer. You
+    are not told which is which, and both are at the same loudness.</p>
+    <div class="choices">
+      <button class="big" data-play="first">▶ Play first</button>
+      <button class="big" data-play="second">▶ Play second</button>
+      <button class="big" data-play="x" id="playX" style="display:none">▶ Play X</button>
+    </div>
+    <div class="choices">
+      <button data-pick="first">Pick the first</button>
+      <button data-pick="second">Pick the second</button>
+      <button id="stopBtn">Stop</button>
+    </div>
+  </section>
+
+  <section class="verdict hidden" id="verdict"></section>
+
+  <footer>
+    Loudness is measured to ITU-R BS.1770: K-weighted mean square over 400&nbsp;ms
+    blocks, with the absolute &minus;70&nbsp;LUFS gate and the relative
+    &minus;10&nbsp;LU gate applied. The quieter file wins the match, so the
+    louder one is turned <em>down</em> and no limiter colouring is introduced.
+    Everything runs locally and offline.
+  </footer>
+</div>
+
+<script src="booth.js"></script>
+</main><p style="text-align:center;padding:2rem 0;font:700 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;text-transform:uppercase"><a href="../" style="color:#b07d12">&larr; A.T. Informatics lab</a></p>
+</body>
+</html>
