@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.voiceflow.com 'sha256-JV8aNziydLOwcRr8EMqTKKfJV5ogU45HDODwe7UGPBI='; style-src 'self' 'unsafe-inline' https://cdn.voiceflow.com; img-src 'self' data: https://general-runtime.voiceflow.com https://cdn.voiceflow.com; media-src 'self'; font-src 'self' https://cdn.voiceflow.com; connect-src 'self' https://general-runtime.voiceflow.com https://runtime-api.voiceflow.com wss://general-runtime.voiceflow.com wss://runtime-api.voiceflow.com; frame-src https://general-runtime.voiceflow.com; form-action 'self'; base-uri 'none'; object-src 'none'">
 <title>Websites · A.T. Informatics</title>
 <meta name="description" content="Built as plain, fast pages rather than a page-builder with forty plugins. No cookie banner, no tracking, nothing loading from six other companies.">
 <meta name="color-scheme" content="light">
@@ -89,5 +89,22 @@
   It runs one small script of its own, for reveals.</p>
 </div></footer>
 <script defer src="../../assets/reveal.js"></script>
+<script type="text/javascript">
+  (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '6aebb04f86d7f9e14b1be5e3' },
+          url: 'https://general-runtime.voiceflow.com',
+          voice: {
+            url: 'https://runtime-api.voiceflow.com'
+          },
+          environmentID: 'main',
+          versionVariant: 'published'
+        });
+      }
+      v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs'; v.type = 'text/javascript'; s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
 </body>
 </html>
