@@ -131,12 +131,21 @@
   <h2>7. This website</h2>
   <p>This site is static HTML and CSS served by GitHub Pages.</p>
   <ul>
-    <li><strong>No third-party requests.</strong> No fonts, scripts, analytics,
-    trackers or embeds from any other host. Everything is served from this
-    domain &mdash; open your browser&rsquo;s network panel and check.</li>
-    <li><strong>No cookies and no local storage.</strong> The only script is one same-origin file for scroll motion. It reads nothing and stores nothing.</li>
-    <li>A Content-Security-Policy of <code>default-src 'self'</code> with
-    <code>script-src 'none'</code>, delivered in a <code>&lt;meta&gt;</code> tag.</li>
+    <li><strong>No analytics and no tracking.</strong> No ad pixels, no
+    analytics scripts, nothing that profiles you across sites.</li>
+    <li><strong>No cookies and no local storage.</strong> Nothing on this
+    site reads or writes either.</li>
+    <li><strong>One third party, by design, not by accident:</strong> the
+    chat assistant embedded on every page loads its script from
+    <code>cdn.voiceflow.com</code> and talks to
+    <code>general-runtime.voiceflow.com</code> /
+    <code>runtime-api.voiceflow.com</code>. Every other request on this
+    site is same-origin &mdash; open your browser&rsquo;s network panel and
+    check.</li>
+    <li>A Content-Security-Policy restricting scripts to this domain and
+    Voiceflow's named hosts only (<code>script-src 'self'
+    https://cdn.voiceflow.com '&lt;hash of the one inline bootstrap
+    script&gt;'</code>), delivered in a <code>&lt;meta&gt;</code> tag.</li>
   </ul>
   <p><strong>Being accurate about what that does and does not cover.</strong>
   This site is hosted on GitHub Pages, which serves static files and gives us no
