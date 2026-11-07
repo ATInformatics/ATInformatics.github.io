@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.voiceflow.com 'sha256-JV8aNziydLOwcRr8EMqTKKfJV5ogU45HDODwe7UGPBI='; style-src 'self' 'unsafe-inline' https://cdn.voiceflow.com; img-src 'self' data: https://general-runtime.voiceflow.com https://cdn.voiceflow.com; media-src 'self'; font-src 'self' https://cdn.voiceflow.com; connect-src 'self' https://general-runtime.voiceflow.com https://runtime-api.voiceflow.com wss://general-runtime.voiceflow.com wss://runtime-api.voiceflow.com; frame-src https://general-runtime.voiceflow.com; form-action 'self'; base-uri 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self' https://adelaide-tissue-handhelds-labor.trycloudflare.com; form-action 'self'; base-uri 'none'; object-src 'none'">
 <title>Security · A.T. Informatics</title>
 <meta name="description" content="Security model and vulnerability disclosure policy.">
 <meta name="color-scheme" content="light">
@@ -31,7 +31,7 @@
     <nav class="doc-nav" aria-label="Legal documents"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="eula.html">Licence</a><a href="licenses.html">Third-party</a><a href="security.html" aria-current="page">Security</a></nav>
     <h1>Security</h1>
     <p class="doc-meta">How these tools are built, what they can reach, and how
-    to report a problem &middot; last updated 06 November 2026</p>
+    to report a problem &middot; last updated 07 November 2026</p>
 <div class="callout">
     <p><strong>Found something? Email
     <a href="mailto:aftertimetechnologies@gmail.com">aftertimetechnologies@gmail.com</a>.</strong>
@@ -135,17 +135,18 @@
     analytics scripts, nothing that profiles you across sites.</li>
     <li><strong>No cookies and no local storage.</strong> Nothing on this
     site reads or writes either.</li>
-    <li><strong>One third party, by design, not by accident:</strong> the
-    chat assistant embedded on every page loads its script from
-    <code>cdn.voiceflow.com</code> and talks to
-    <code>general-runtime.voiceflow.com</code> /
-    <code>runtime-api.voiceflow.com</code>. Every other request on this
-    site is same-origin &mdash; open your browser&rsquo;s network panel and
-    check.</li>
-    <li>A Content-Security-Policy restricting scripts to this domain and
-    Voiceflow's named hosts only (<code>script-src 'self'
-    https://cdn.voiceflow.com '&lt;hash of the one inline bootstrap
-    script&gt;'</code>), delivered in a <code>&lt;meta&gt;</code> tag.</li>
+    <li><strong>One outside connection, by design, not by accident:</strong>
+    the chat assistant&rsquo;s script is served from this domain, and when you
+    send it a message, that message goes to our assistant server through
+    Cloudflare (<code>*.trycloudflare.com</code>). The server passes the
+    conversation to an AI provider to write the reply: Voiceflow, Groq,
+    Google Gemini or OpenRouter, whichever is available. We do not store chat
+    messages. Do not type anything private into the chat. Every other request
+    on this site is same-origin &mdash; open your browser&rsquo;s network panel
+    and check.</li>
+    <li>A Content-Security-Policy that allows scripts from this domain only
+    (<code>script-src 'self'</code>) and connections to this domain and the
+    assistant server only, delivered in a <code>&lt;meta&gt;</code> tag.</li>
   </ul>
   <p><strong>Being accurate about what that does and does not cover.</strong>
   This site is hosted on GitHub Pages, which serves static files and gives us no
@@ -244,22 +245,6 @@
 </div></footer>
 <script defer src="../assets/reveal.js"></script>
 <a href="mailto:info@atinformatics.com" style="position:fixed;left:20px;bottom:20px;z-index:40;font:13px/1.4 -apple-system,sans-serif;color:#9fb3ac;background:#12302a;border:1px solid #244a42;border-radius:10px;padding:8px 12px;text-decoration:none">Prefer email? info@atinformatics.com</a>
-<script type="text/javascript">
-  (function(d, t) {
-      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '6aebb04f86d7f9e14b1be5e3' },
-          url: 'https://general-runtime.voiceflow.com',
-          voice: {
-            url: 'https://runtime-api.voiceflow.com'
-          },
-          environmentID: 'main',
-          versionVariant: 'published'
-        });
-      }
-      v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs'; v.type = 'text/javascript'; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
+<script defer src="/assets/assistant.js" data-endpoint="https://adelaide-tissue-handhelds-labor.trycloudflare.com"></script>
 </body>
 </html>
