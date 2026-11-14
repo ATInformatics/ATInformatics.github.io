@@ -43,7 +43,7 @@
     fetch(ep + "/form/" + site, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().then(function (j) { return [r.status, j]; }); })
       .then(function (x) {
-        if (x[0] === 202) { form.reset(); out.textContent = "Thank you. Your message reached a person. We reply within one working day."; }
+        if (x[0] === 202) { form.reset(); out.textContent = "Thank you. We received your message and reply within one working day."; }
         else { out.textContent = (x[1] && x[1].error) || "That did not send. Please email info@atinformatics.com."; }
       })
       .catch(function () { out.textContent = "That did not send. Please email info@atinformatics.com."; })
