@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self' https://adelaide-tissue-handhelds-labor.trycloudflare.com; form-action 'self'; base-uri 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self' https://api.atinformatics.com; form-action 'self'; base-uri 'none'; object-src 'none'">
 <title>Security · A.T. Informatics</title>
 <meta name="description" content="Security model and vulnerability disclosure policy.">
 <meta name="color-scheme" content="light">
@@ -133,12 +133,13 @@
   <ul>
     <li><strong>No analytics and no tracking.</strong> No ad pixels, no
     analytics scripts, nothing that profiles you across sites.</li>
-    <li><strong>No cookies and no local storage.</strong> Nothing on this
-    site reads or writes either.</li>
+    <li><strong>No cookies.</strong> One value is kept in your browser&rsquo;s
+    local storage: your &euro; or &pound; choice. It never leaves your device.</li>
     <li><strong>One outside connection, by design, not by accident:</strong>
     the chat assistant&rsquo;s script is served from this domain, and when you
-    send it a message, that message goes to our assistant server through
-    Cloudflare (<code>*.trycloudflare.com</code>). The server passes the
+    send it a message, that message goes to our own assistant server at
+    <code>api.atinformatics.com</code>. The contact form and the visit counter
+    go to the same server. The server passes the
     conversation to an AI provider to write the reply: Voiceflow, Groq,
     Google Gemini or OpenRouter, whichever is available. We do not store chat
     messages. Do not type anything private into the chat. Every other request
@@ -248,6 +249,6 @@
 <script defer src="../assets/currency.js"></script>
 <script defer src="../assets/chatcities.js"></script>
 <a href="mailto:info@atinformatics.com" style="position:fixed;left:20px;bottom:20px;z-index:40;font:13px/1.4 -apple-system,sans-serif;color:#9fb3ac;background:#12302a;border:1px solid #244a42;border-radius:10px;padding:8px 12px;text-decoration:none">Prefer email? info@atinformatics.com</a>
-<script defer src="/assets/assistant.js" data-endpoint="https://adelaide-tissue-handhelds-labor.trycloudflare.com"></script><script defer src="/assets/counter.js" data-endpoint="https://adelaide-tissue-handhelds-labor.trycloudflare.com" data-site="at-informatics"></script>
+<script defer src="/assets/assistant.js" data-endpoint="https://api.atinformatics.com"></script><script defer src="/assets/counter.js" data-endpoint="https://api.atinformatics.com" data-site="at-informatics"></script>
 </body>
 </html>
