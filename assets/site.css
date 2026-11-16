@@ -413,3 +413,10 @@ tr:last-child td{border-bottom:0}
   background:var(--primary);color:var(--on-primary)!important;font-size:13.5px;font-weight:700;white-space:nowrap}
 .herocta{margin:var(--s4) 0 0 0;font-size:15px;padding:12px 20px}
 @media (max-width:620px){ .nav .navcta{margin-left:auto} .pagehead{padding-top:10rem} }
+/* currency: euro by default; html.gbp (set by currency.js) shows pounds */
+.c-gbp{display:none}
+html.gbp .c-gbp{display:inline}
+html.gbp .c-eur{display:none}
+.curswitch{display:inline-flex;gap:4px;margin-left:6px;vertical-align:middle}
+.curswitch button{font:inherit;font-size:13px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--fg,inherit);cursor:pointer}
+.curswitch button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
