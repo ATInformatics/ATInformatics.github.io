@@ -420,3 +420,27 @@ html.gbp .c-eur{display:none}
 .curswitch{display:inline-flex;gap:4px;margin-left:6px;vertical-align:middle}
 .curswitch button{font:inherit;font-size:13px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--fg,inherit);cursor:pointer}
 .curswitch button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+/* 2026-11-16 homepage brief */
+.phone .msg, .phone .when{transition:opacity .35s ease}
+.phone.ct-fade .msg, .phone.ct-fade .when{opacity:.15}
+.navcur{margin-left:var(--s4)}
+.navcur button{font-size:12.5px;padding:6px 10px}
+@media (max-width:620px){ .navcur{margin-left:0} }
+.logolabel{margin:var(--s6) 0 var(--s4);color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.logostrip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.logostrip img{width:100%;height:auto;border:1px solid var(--border);border-radius:6px;background:#fff}
+@media (max-width:760px){ .logostrip{grid-template-columns:repeat(2,1fr)} }
+.journey{list-style:none;padding:0;margin:var(--s5) 0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:j}
+.journey li{position:relative;padding:var(--s4) var(--s4) var(--s4) 0;border-top:2px solid var(--primary)}
+.journey li b{display:block;font-size:1.15rem}
+.journey li span{color:var(--muted);font-size:.95rem}
+.journey li:not(:last-child)::after{content:"\2192";position:absolute;right:8px;top:12px;color:var(--primary);font-weight:700}
+@media (max-width:760px){ .journey{grid-template-columns:1fr} .journey li:not(:last-child)::after{content:"\2193"} }
+.bishot{margin:var(--s5) 0}
+.bishot img{width:100%;height:auto;border:1px solid var(--border);border-radius:10px;display:block}
+.bishot figcaption{margin-top:8px;color:var(--muted);font-size:12px;letter-spacing:.08em}
+.labrows{border-top:1px solid var(--border)}
+.labrow{display:grid;grid-template-columns:200px 160px 1fr auto;gap:var(--s4);align-items:baseline;padding:var(--s4) 0;border-bottom:1px solid var(--border);color:inherit;text-decoration:none}
+.labrow:hover b{text-decoration:underline}
+.labone{color:var(--muted)}
+@media (max-width:760px){ .labrow{grid-template-columns:1fr auto} .labrow .tag,.labrow .labone{grid-column:1/-1} }
