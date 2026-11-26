@@ -85,7 +85,7 @@ p{margin:0}
 /* ───────────────────────────── nav ───────────────────────────── */
 .nav{position:fixed;inset:0 0 auto 0;z-index:90;display:flex;align-items:center;
   gap:var(--s5);padding:16px clamp(20px,6vw,56px);
-  background:linear-gradient(180deg,rgba(242,236,224,.92),rgba(242,236,224,0));
+  background:rgba(242,236,224,.985);border-bottom:1px solid rgba(212,205,192,.7);   /* 2026-11-26: was a fade to clear, so page text ran through the menu on scroll */
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .nav .brand{font-weight:800;font-size:14px;letter-spacing:-.02em;white-space:nowrap}
 .nav .brand .dot{color:var(--primary)}
@@ -128,7 +128,7 @@ p{margin:0}
 .pagehead .lede{margin-top:var(--s4)}
 
 /* ───────────────────────────── chapters ───────────────────────────── */
-.chapter{padding:var(--s8) 0;border-top:1px solid var(--border)}
+.chapter{padding:clamp(64px,8vw,112px) 0;border-top:1px solid var(--border)}   /* 2026-11-26 polish: was 136 px top and bottom, long empty gaps */
 .chapter:first-of-type{border-top:0}
 .chead{display:grid;gap:var(--s4);margin-bottom:var(--s6)}
 @media(min-width:900px){.chead{grid-template-columns:14rem 1fr;gap:var(--s6);align-items:start}}
@@ -557,3 +557,12 @@ html.gbp .c-eur{display:none}
   .bid-kpi{grid-column:span 6;padding:14px}.bid-kpi .n{font-size:26px}.bid-kpi svg{display:none}.bid-wheelcard{grid-template-columns:1fr}.bid-step{grid-template-columns:92px 1fr 42px}
 }
 @media (prefers-reduced-motion:reduce){.bid *{transition:none!important}}
+
+/* 2026-11-26 polish (his pick "e") */
+#atiForm input:not([type=checkbox]),#atiForm textarea{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--border)!important;border-radius:10px!important;padding:12px 14px!important}
+#atiForm input:focus,#atiForm textarea:focus{outline:2px solid var(--primary);outline-offset:1px}
+#atiForm label{display:flex;gap:8px;align-items:center;font-size:15px!important}
+#atiForm button[type=submit]{justify-self:start;margin:4px 0 0;border:0;cursor:pointer;font:inherit;font-size:16px;font-weight:700;padding:13px 28px}
+.mailfloat{position:fixed;left:20px;bottom:20px;z-index:40;font-size:14px;line-height:1.4;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:9px 14px}
+.mailfloat:hover{border-color:var(--primary)}
+@media (max-width:700px){.mailfloat{display:none}}   /* on a phone it sat under the chat button; the email is in the footer */
