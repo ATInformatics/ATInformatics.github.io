@@ -8,10 +8,11 @@
   "use strict";
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var root = document.documentElement;
-  var XFADE = 0.7;
+  var XFADE = 0.55;
   function clamp(x) { return Math.max(0, Math.min(1, x)); }
   function band(s, a, b) { return clamp((s - a) / (b - a)); }
   function ease(x) { return x * x * (3 - 2 * x); }
+  function pop(x) { var c = 2.2; x = x - 1; return 1 + (c + 1) * x * x * x + c * x * x; }   // overshoots, then settles
   var web = document.getElementById("web"), ai = document.getElementById("ai"), big = document.getElementById("big"),
       talk = document.getElementById("talk");
   var scenes = [web, ai, big, talk];
@@ -95,9 +96,30 @@
     requestAnimationFrame(snowLoop);
   }
 
-  var webStage = stageOf(web), aiStage = stageOf(ai);
+  // ---- hero: glints twinkle on his light plate while it is light ----
+  var tw = web.querySelector(".twinkle"), twX = tw.getContext("2d"), glints = [], twOn = false;
+  for (var g0 = 0; g0 < 46; g0++) glints.push({ x: Math.random(), y: Math.random() * 0.85, s: 0.5 + Math.random(), ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.4 });
+  function twLoop(t) {
+    if (!twOn) { twX.clearRect(0, 0, tw.width, tw.height); tw.dataset.run = ""; return; }
+    fit(tw);
+    var w = tw.width, h = tw.height, k = w / 1600;
+    twX.clearRect(0, 0, w, h);
+    glints.forEach(function (p) {
+      var a = Math.max(0, Math.sin(t / 1000 * p.sp + p.ph)); a = a * a * a;
+      if (a < 0.02) return;
+      var x = p.x * w, y = p.y * h, r = (4 + 7 * p.s) * k * a;
+      var gr = twX.createRadialGradient(x, y, 0, x, y, r * 2.2);
+      gr.addColorStop(0, "rgba(255,248,225," + a + ")"); gr.addColorStop(1, "rgba(255,220,150,0)");
+      twX.fillStyle = gr; twX.beginPath(); twX.arc(x, y, r * 2.2, 0, 6.283); twX.fill();
+      twX.strokeStyle = "rgba(255,250,235," + (a * 0.9) + ")"; twX.lineWidth = Math.max(1, k);
+      twX.beginPath(); twX.moveTo(x - r * 2.4, y); twX.lineTo(x + r * 2.4, y); twX.moveTo(x, y - r * 2.4); twX.lineTo(x, y + r * 2.4); twX.stroke();
+    });
+    requestAnimationFrame(twLoop);
+  }
+
+  var webStage = stageOf(web), aiStage = stageOf(ai), talkStage = stageOf(talk);
   var heroIn = web.querySelector(".heroin"), puppets = [].slice.call(web.querySelectorAll(".puppet"));
-  var vDark = web.querySelector(".hv.dark"), vLight = web.querySelector(".hv.light");
+  var vDark = web.querySelector(".hv.dark");
   var phone = ai.querySelector(".phone");
   var dash = big.querySelector(".dash"), tiles = [].slice.call(dash.querySelectorAll(".tile"));
   var gauge = dash.querySelector(".gauge"), chart = dash.querySelector(".chart"), src = dash.querySelector(".src");
@@ -119,43 +141,44 @@
       [].forEach.call(el.querySelectorAll("[data-at]"), function (b) { b.classList.toggle("on", still || S(el) >= +b.dataset.at); });
     });
 
-    // ---- hero + 01 ----
+    // ---- hero + 01: dark at once, the moon up and down, the sun and the people up before the shop fills the screen ----
     var s = S(web), A = dial.ang + 32;
-    var dk = still ? 1 : ease(band(s, 0, 0.55));
+    var dk = still ? 1 : ease(band(s, 0, 0.4));
     webStage.style.setProperty("--dk", dk.toFixed(3));
-    webStage.style.setProperty("--nt", (still ? 1 : ease(band(s, 0.3, 0.62))).toFixed(3));
-    webStage.style.setProperty("--dy", (still ? 1 : ease(band(s, 0.62, 1.0))).toFixed(3));
-    var ho = 1 - band(s, 0.06, 0.42);
+    webStage.style.setProperty("--nt", (still ? 1 : ease(band(s, 0.2, 0.48))).toFixed(3));
+    webStage.style.setProperty("--dy", (still ? 1 : ease(band(s, 0.3, 0.48))).toFixed(3));
+    var ho = 1 - band(s, 0.03, 0.3);
     heroIn.style.opacity = ho.toFixed(3);
     heroIn.style.transform = "translateY(" + (-s * 45).toFixed(1) + "vh)";
     heroIn.style.pointerEvents = ho > 0.5 ? "auto" : "none";
-    // the moon rises from bottom left to the top, then sets to the right while the sun rises from the left
-    var am = -A + A * ease(band(s, 0, 0.5)) + A * ease(band(s, 0.55, 1.0));
-    var as = -A + A * ease(band(s, 0.6, 1.05));
+    var am = -A + A * ease(band(s, 0, 0.26)) + A * ease(band(s, 0.24, 0.42));
+    var as = -A + A * ease(band(s, 0.26, 0.46));
     web.style.setProperty("--am", am.toFixed(2) + "deg");
     web.style.setProperty("--as", as.toFixed(2) + "deg");
-    web.style.setProperty("--arc", band(s, 0.05, 0.4).toFixed(3));
+    web.style.setProperty("--arc", band(s, 0.05, 0.3).toFixed(3));
+    web.classList.toggle("is-day", still || s >= 0.38);
     puppets.forEach(function (p) {
       if (p._d === undefined) p._d = parseFloat(p.style.getPropertyValue("--d")) || 0;
-      var d = p._d, u = still ? 1 : ease(band(s, 0.72 + d * 0.035, 1.02 + d * 0.035));
-      p.style.setProperty("--u", u.toFixed(3)); p.classList.toggle("up", u >= 1 && !still);
+      var x = still ? 1 : band(s, 0.32 + p._d * 0.01, 0.44 + p._d * 0.01), u = x >= 1 ? 1 : pop(x);
+      p.style.setProperty("--u", u.toFixed(3)); p.classList.toggle("up", x >= 1 && !still);
     });
-    snowA = still ? 0 : band(s, 0.3, 0.5) * (1 - band(s, 0.7, 0.95));
+    snowA = still ? 0 : band(s, 0.2, 0.34) * (1 - band(s, 0.38, 0.52));
     if (snowA > 0 && !running) { running = true; requestAnimationFrame(snowLoop); }
-    var webOn = s < 2.5;
-    play(vLight, webOn && dk < 1 && !still); play(vDark, webOn && dk > 0 && s < 0.7 && !still);
+    twOn = !still && s < 0.45 && dk < 1;
+    if (twOn && !tw.dataset.run) { tw.dataset.run = "1"; requestAnimationFrame(twLoop); }
+    play(vDark, dk > 0 && s < 0.5 && !still);
 
-    // ---- 02 ----
+    // ---- 02: shorter; the conversation and the owner's alert come early ----
     s = S(ai);
-    aiStage.style.setProperty("--dy", (still ? 1 : 1 - ease(band(s, 0.45, 0.95))).toFixed(3));
-    aiStage.style.setProperty("--sg", (still ? 1 : ease(band(s, 1.0, 1.3))).toFixed(3));
-    var lights = still || s >= 1.36;
+    aiStage.style.setProperty("--dy", (still ? 1 : 1 - ease(band(s, 0.3, 0.62))).toFixed(3));
+    aiStage.style.setProperty("--sg", (still ? 1 : ease(band(s, 0.62, 0.84))).toFixed(3));
+    var lights = still || s >= 0.88;
     if (lights !== state.lights) { state.lights = lights; ai.classList.toggle("lights", lights); }
-    aiStage.style.setProperty("--bk", lights ? "0" : (0.75 * band(s, 1.0, 1.3)).toFixed(3));
-    var up = ease(band(s, 1.82, 2.05)) * (1 - ease(band(s, 3.05, 3.3)));
+    aiStage.style.setProperty("--bk", lights ? "0" : (0.75 * band(s, 0.62, 0.84)).toFixed(3));
+    var up = ease(band(s, 1.16, 1.34)) * (1 - ease(band(s, 2.22, 2.42)));
     phone.style.setProperty("--y", (still ? 0 : (1 - up) * 120).toFixed(2));
-    ai.classList.toggle("dim", up > 0 || s >= 3.3);
-    ai.classList.toggle("opened", still || s >= 2.26);
+    ai.classList.toggle("dim", up > 0 || s >= 2.4);
+    ai.classList.toggle("opened", still || s >= 1.5);
 
     // ---- 03 ----
     s = S(big);
@@ -177,6 +200,10 @@
       b.textContent = v.toLocaleString("en-GB");
     });
 
+    // ---- after 03: the ivory paper unfolds towards you ----
+    s = S(talk);
+    talkStage.style.setProperty("--f", (still ? 1 : ease(band(s, 0.3, 0.95))).toFixed(3));
+
     // ---- the thread: dots sit where each module really is ----
     if (thread) {
       var start = web.offsetTop, end = big.offsetTop + 2.6 * vh;
@@ -195,5 +222,4 @@
   window.addEventListener("resize", function () { layout(); onScroll(); });
   layout();
   frame();
-  play(vLight, !still);                                     // the ring turns as soon as the page opens
 })();

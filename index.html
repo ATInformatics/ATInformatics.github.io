@@ -33,10 +33,19 @@
 <div class="thread" aria-hidden="true"><span class="thread-fill"></span>
   <b data-t="web">01</b><b data-t="ai">02</b><b data-t="big">03</b></div>
 
-<section class="scene" id="web" style="--len:340vh">
+<section class="scene" id="web" style="--len:275vh">
   <div class="stage">
-    <video class="hv light" autoplay muted loop playsinline preload="auto" poster="film/media/hero-light.jpg" aria-hidden="true" tabindex="-1"><source src="film/media/hero-light.mp4" type="video/mp4"></video>
-    <video class="hv dark" muted loop playsinline preload="auto" poster="film/media/hero-dark.jpg" aria-hidden="true" tabindex="-1"><source src="film/media/hero-dark.mp4" type="video/mp4"></video>
+    <div class="hbox" aria-hidden="true">
+      <img class="hl" src="film/media/hero-light-hd.jpg" alt="">
+      <span class="glow g-orb"></span><span class="glow g-floor"></span>
+      <svg class="orbits" viewBox="0 0 1672 941"><g fill="none" stroke="rgba(190,140,40,.55)" stroke-width="1.4">
+        <ellipse class="ring r1" cx="836" cy="265" rx="160" ry="140" stroke-dasharray="2 9"/>
+        <ellipse class="ring r2" cx="836" cy="265" rx="212" ry="186" stroke-dasharray="1 14"/></g>
+        <circle r="5" fill="#d9a531"><animateMotion dur="9s" repeatCount="indefinite" path="M996 265a160 140 0 1 1-320 0a160 140 0 1 1 320 0"/></circle>
+        <circle r="3.5" fill="#f3d48a"><animateMotion dur="15s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear" path="M1048 265a212 186 0 1 1-424 0a212 186 0 1 1 424 0"/></circle></svg>
+      <canvas class="twinkle"></canvas>
+      <video class="hv dark" muted loop playsinline preload="auto" poster="film/media/hero-dark.jpg" tabindex="-1"><source src="film/media/hero-dark.mp4" type="video/mp4"></video>
+    </div>
     <div class="plate">
       <img class="ph night" src="film/media/shop-night.jpg" alt="">
       <img class="ph day" src="film/media/shop-day.jpg" alt="">
@@ -64,40 +73,42 @@
       <p><a class="navcta herocta" href="https://cal.com/a.t.-informatics/15min" target="_blank" rel="noopener">Book a 15-minute call</a></p>
     </div>
   </header>
-    <div class="cap center cap-night" data-from=".42" data-to=".82"><p class="kick">01 / Websites</p><h2>Can you give them a reason to care?</h2>
-      <p>Your business has something worth discovering. Make sure the first impression shows it.</p></div>
-    <div class="cap center cap-day glass" data-from=".9" data-to="1.7"><p class="kick">01 / Websites</p><h2>We make people stop.</h2>
-      <p>Does your business make the right first impression?</p>
-      <p>We help you turn attention into interest, and interest into a reason to choose you.</p>
-      <a class="navcta herocta" href="https://atinformatics.com/services/websites/">Make your first impression count</a></div>
+    <div class="cap center glass cap-web" data-from=".22" data-to="1.2"><p class="kick">01 / Websites</p>
+      <div class="swap"><h2 class="hn">Can you give them a reason to care?</h2><h2 class="hd">We make people stop.</h2></div>
+      <div class="swap"><p class="hn">Your business has something worth discovering. Make sure the first impression shows it.</p>
+        <div class="hd"><p>Does your business make the right first impression?</p>
+          <p>We help you turn attention into interest, and interest into a reason to choose you.</p>
+          <a class="navcta herocta" href="https://atinformatics.com/services/websites/">Make your first impression count</a></div></div></div>
   </div>
 </section>
 
-<section class="scene" id="ai" style="--len:540vh">
+<section class="scene" id="ai" style="--len:440vh">
   <div class="stage">
     <img class="ph night" src="film/media/shop-night.jpg" alt="">
     <img class="ph day" src="film/media/shop-day.jpg" alt="">
     <img class="ph sign" src="film/media/sign-lit.jpg" alt="">
     <div class="black" aria-hidden="true"></div>
-    <div class="cap center" data-from=".72" data-to="1.12"><p class="kick">02 / AI assistant</p><h2>Your business closes.</h2></div>
-    <div class="cap center" data-from="1.36" data-to="1.86"><p class="kick">02 / AI assistant</p><h2>The conversation doesn't have to.</h2></div>
+    <div class="cap center" data-from=".5" data-to=".86"><p class="kick">02 / AI assistant</p><h2>Your business closes.</h2></div>
+    <div class="cap center" data-from=".9" data-to="1.2"><p class="kick">02 / AI assistant</p><h2>The conversation doesn't have to.</h2></div>
     <div class="phone" aria-label="Example conversation">
       <div class="island" aria-hidden="true"></div>
       <div class="lock" aria-hidden="true"><p class="lock-d">Thursday 27 November</p><p class="lock-t">21:47</p></div>
-      <div class="banner" data-at="2.08"><span class="appicon" aria-hidden="true"></span>
+      <div class="banner" data-at="1.36"><span class="appicon" aria-hidden="true"></span>
         <div class="bn"><p class="bn-h"><b>Maria</b><span>now</span></p><p class="bn-t">Still open?</p></div></div>
       <div class="thread-ui">
         <div class="tbar"><span class="back" aria-hidden="true">‹</span><span class="av">M</span><span class="tname">Maria</span></div>
         <div class="msgs">
           <p class="when">Today 21:47</p>
-          <div class="bub in" data-at="2.38">Still open? Do you do gift boxes?</div>
-          <div class="bub out" data-at="2.54">We open at 9:00. Gift boxes start from <span class="c-eur">€</span><span class="c-gbp">£</span>25. Shall I tell the owner?</div>
-          <div class="bub in" data-at="2.7">Yes please. Maria, 0888 123 456.</div>
-          <p class="sys" data-at="2.86">✓ Sent to the owner's phone</p>
+          <div class="bub in" data-at="1.56">Still open? Do you do gift boxes?</div>
+          <div class="bub out" data-at="1.66">We open at 9:00. Gift boxes start from <span class="cur" data-gbp="£">€</span>25. Shall I tell the owner?</div>
+          <div class="bub in" data-at="1.76">Yes please. Maria, 0888 123 456.</div>
+          <p class="sys" data-at="1.86">✓ Sent to the owner's phone</p>
         </div>
       </div>
+      <div class="banner owner" data-at="1.98"><span class="appicon owl" aria-hidden="true">A</span>
+        <div class="bn"><p class="bn-h"><b>New enquiry</b><span>now</span></p><p class="bn-t">Maria wants gift boxes. 0888 123 456.</p></div></div>
     </div>
-    <div class="cap center" data-from="3.3" data-to="3.7"><p class="kick">02 / AI assistant</p><h2>Don't let a missed question become a missed opportunity.</h2>
+    <div class="cap center" data-from="2.4" data-to="2.85"><p class="kick">02 / AI assistant</p><h2>Don't let a missed question become a missed opportunity.</h2>
       <a class="navcta herocta" href="https://atinformatics.com/services/automation/">Meet your business assistant</a></div>
   </div>
 </section>
@@ -107,9 +118,9 @@
     <canvas></canvas>
     <img class="ph goldcity" src="film/media/city-gold.jpg" alt="">
     <div class="flash" aria-hidden="true"></div>
-    <div class="cap center c-small" data-from=".72" data-to=".88"><p class="kick">03 / B.I.G.</p><h2>You're making the small decisions.</h2></div>
+    <div class="cap center c-small" data-from=".57" data-to=".88"><p class="kick">03 / B.I.G.</p><h2>You're making the small decisions.</h2></div>
     <div class="cap center c-big" data-from="1.02" data-to="1.6"><p class="kick">03 / B.I.G.</p><h2>But do you see the <span class="gold">BIG</span> picture?</h2></div>
-    <div class="dash" data-from="1.62" data-to="3.3">
+    <div class="dash" data-from="1.62" data-to="9">
       <div class="dhead"><p class="kick">03 / B.I.G.</p><h2>Step out of the unknown.</h2>
         <p>You steer the business. We help you see what's ahead: where customers come from, where opportunities disappear, and where your next move could take you.</p></div>
       <div class="dgrid">
@@ -117,7 +128,7 @@
           <svg viewBox="0 0 200 120" aria-hidden="true"><path class="g-bg" d="M20 105 A80 80 0 0 1 180 105"/><path class="g-fg" pathLength="100" d="M20 105 A80 80 0 0 1 180 105"/>
             <line class="needle" x1="100" y1="105" x2="100" y2="38"/><circle cx="100" cy="105" r="7" class="hub"/></svg>
           <p class="tn"><b data-n="46">46</b></p><p class="ts up">▲ 12 more than last month</p></div>
-        <div class="tile" style="--i:1"><p class="th">Money in</p><p class="tn"><span class="c-eur">€</span><span class="c-gbp">£</span><b data-n="12480">12,480</b></p><p class="ts up">▲ 18% this month</p></div>
+        <div class="tile" style="--i:1"><p class="th">Money in</p><p class="tn"><span class="cur" data-gbp="£">€</span><b data-n="12480">12,480</b></p><p class="ts up">▲ 18% this month</p></div>
         <div class="tile" style="--i:2"><p class="th">Became customers</p><p class="tn"><b data-n="31">31</b>%</p><p class="ts">of all enquiries</p></div>
         <div class="tile" style="--i:3"><p class="th">Came back</p><p class="tn"><b data-n="9">9</b></p><p class="ts">customers ordered again</p></div>
         <div class="tile wide chart" style="--i:4"><p class="th">Money in, last 6 months</p>
@@ -138,7 +149,8 @@
 <section class="scene" id="talk" aria-label="A.T. Informatics" style="--len:200vh">
   <div class="stage">
     <img class="ph paper" src="film/media/paper.jpg" alt="">
-    <div class="cap center on-light" data-from=".72" data-to="9"><p class="kick">A.T. Informatics</p><h2>Let's talk about your business.</h2></div>
+    <div class="sheen" aria-hidden="true"></div>
+    <div class="cap center on-light talkcard" data-from=".5" data-to="9"><p class="kick">A.T. Informatics</p><h2>Let's talk about your business.</h2></div>
   </div>
 </section>
 <section class="contact" id="contact">

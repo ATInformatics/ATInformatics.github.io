@@ -3,10 +3,10 @@
    dissolves away, so one real picture melts into the next. No empty gradient between scenes. */
 :root{--navh:72px}
 
-/* a scene: tall, its stage pinned. Each next scene starts 170vh early, under the one above (both pinned
-   for 70vh while the top one dissolves). Earlier scenes sit on top. */
+/* a scene: tall, its stage pinned. Each next scene starts 155vh early, under the one above (both pinned
+   for 55vh while the top one dissolves). Earlier scenes sit on top. */
 .scene{position:relative;height:var(--len,200vh)}   /* no background: a section box would cover the scene under it */
-.scene + .scene{margin-top:-170vh}
+.scene + .scene{margin-top:-155vh}
 #web{z-index:4}#ai{z-index:3}#big{z-index:2}#talk{z-index:1}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#0b0d0e}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -31,6 +31,22 @@
    the sun comes up over the summer shop. JS sets --dk (dark), --nt (night shop), --dy (day shop). ---- */
 #web .stage{--dk:0;--nt:0;--dy:0}
 .hv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* the hero plate: his HD light image and the dark starfield in one 16:9 box (covers the screen), so the dark
+   video can be moved onto the light image's orb (measured: dark orb 51.2% 26.2%, light orb 50.0% 28.2%) */
+.hbox{position:absolute;left:50%;top:50%;width:max(100vw,calc(100svh * 16 / 9));aspect-ratio:16/9;translate:-50% -50%;
+  transform-origin:50% 28.2%;animation:breathe 16s ease-in-out infinite alternate}
+@keyframes breathe{from{scale:1}to{scale:1.035}}
+.hl,.orbits,.twinkle{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hbox .hv.dark{transform-origin:51.2% 26.2%;transform:translate(-1.2%,1.96%) scale(.97)}
+.glow{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen}
+.g-orb{left:50%;top:28.2%;width:9%;aspect-ratio:1;translate:-50% -50%;background:radial-gradient(circle,rgba(255,226,150,.95) 0,rgba(255,206,110,.35) 35%,rgba(255,206,110,0) 70%);
+  animation:pulse 3.4s ease-in-out infinite}
+.g-floor{left:50%;top:92%;width:38%;height:22%;translate:-50% -50%;border-radius:50%;background:radial-gradient(ellipse,rgba(255,240,200,.9) 0,rgba(255,220,150,.3) 40%,rgba(255,220,150,0) 70%);
+  animation:pulse 5.2s ease-in-out -1.7s infinite}
+@keyframes pulse{0%,100%{opacity:.55;scale:.92}50%{opacity:1;scale:1.08}}
+.ring{transform-box:fill-box;transform-origin:center;animation:spin 40s linear infinite}
+.r2{animation-duration:70s;animation-direction:reverse}
+@keyframes spin{to{rotate:360deg}}
 .hv::-webkit-media-controls,.hv::-webkit-media-controls-panel,.hv::-webkit-media-controls-play-button,
 .hv::-webkit-media-controls-overlay-play-button,.hv::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none;opacity:0}
 .hv.dark{opacity:var(--dk)}
@@ -43,6 +59,9 @@
 .heroin::after{opacity:calc(1 - var(--dk) * 2.2)}
 .heroin .lede{color:inherit;opacity:.85}
 #web .cap{top:57%}
+.swap{display:grid}.swap>*{grid-area:1/1;transition:opacity .5s ease}
+.swap .hd{opacity:0}#web.is-day .swap .hd{opacity:1}#web.is-day .swap .hn{opacity:0}
+.swap .hd p{margin:0 auto 14px}
 
 /* the arc: his moon and sun cut-outs each ride it on their own arm */
 .dial{position:absolute;inset:0;z-index:5;pointer-events:none}
@@ -110,7 +129,10 @@
 .sys.on{opacity:1}
 #ai.opened .thread-ui{opacity:1}
 #ai.opened .lock{opacity:0}
-#ai.opened .banner{top:-120px}
+#ai.opened .banner:not(.owner){top:-120px}
+.banner.owner{top:52px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.appicon.owl{background:linear-gradient(180deg,#e9c46a,#a07a1c);color:#1a1406;font:800 18px/38px Manrope,system-ui;text-align:center}
+.appicon.owl::before,.appicon.owl::after{display:none}
 
 /* ---- 03: the bushes, the golden city, then the dashboard assembles ---- */
 #big canvas{transform-origin:50% 60%}
@@ -150,9 +172,23 @@
 .dfoot .herocta{margin:0}.sample{font-size:13px;opacity:.75}
 
 /* ---- after 03: his paper plate, "Let's talk", then the contact section in the page colour ---- */
-#talk .stage{background:var(--bg,#f2ece0)}
-#talk .paper{-webkit-mask-image:linear-gradient(180deg,#000 0,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 70%,transparent 100%)}
+#talk .stage{--f:0;background:#f6f0e2}
+#talk .paper{filter:sepia(.22) saturate(1.15) contrast(1.32) brightness(1.03);transform:scale(calc(1.12 - var(--f) * .12)) rotateX(calc((1 - var(--f)) * 8deg));
+  transform-origin:50% 40%;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 70%,transparent 100%)}
 
+#talk .sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;
+  background:linear-gradient(115deg,rgba(255,255,255,0) 30%,rgba(255,250,235,.95) 45%,rgba(120,95,50,.55) 55%,rgba(255,255,255,0) 70%);
+  background-size:260% 100%;background-position:calc(100% - var(--f) * 100%) 0}
+.talkcard{width:min(760px,90vw);padding:46px 40px 50px;border-radius:6px;transform-style:preserve-3d;
+  background:linear-gradient(180deg,#fdf9ef 0,#f7f0df 49.4%,#e6dbc0 50%,#fbf6ea 50.8%,#f4ecd9 100%);
+  box-shadow:0 1px 0 #fff inset,0 2px 4px rgba(90,70,30,.12),0 30px 70px rgba(90,70,30,.28);
+  transform:perspective(1100px) rotateX(calc((1 - var(--f)) * 42deg)) translateZ(calc(var(--f) * 24px));
+  transition:opacity .45s ease,translate .45s ease,box-shadow .35s ease,scale .35s ease}
+.talkcard::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(32deg,rgba(0,0,0,0) 48%,rgba(120,95,50,.12) 50%,rgba(255,255,255,.5) 51%,rgba(0,0,0,0) 53%),
+             linear-gradient(-28deg,rgba(0,0,0,0) 60%,rgba(120,95,50,.08) 62%,rgba(255,255,255,.4) 63%,rgba(0,0,0,0) 65%)}
+.talkcard.on:hover{scale:1.025;box-shadow:0 1px 0 #fff inset,0 4px 8px rgba(90,70,30,.14),0 44px 90px rgba(90,70,30,.32)}
+.talkcard h2{text-shadow:0 1px 0 #fff}
 /* the gold thread: each dot sits where its module really is (JS places them) */
 .thread{position:fixed;left:14px;top:22vh;bottom:22vh;width:2px;z-index:80;background:rgba(233,196,106,.25);opacity:0;transition:opacity .4s}
 .thread.on{opacity:1}
@@ -179,6 +215,7 @@
   .gauge svg{max-width:110px}
   .tile.wide,.dgrid .next{grid-column:span 2}
   .tn{font-size:24px}
+  .talkcard{padding:30px 20px 34px}
 }
 /* no motion wanted: the summer shop, the lit sign with the conversation, the city with the dashboard */
 @media (prefers-reduced-motion:reduce){
@@ -189,7 +226,7 @@
   .phone{position:relative;left:auto;top:auto;translate:none;margin:0 auto 40px}
   .dash{position:relative}
   .tile{--k:1}.gauge{--g:1}.chart,.src{--c:1}
-  .hv,.snowfx,.black,.flash,.dial,.puppets,.thread,.lock,.banner,.night,.sign{display:none}
+  .hv.dark,.twinkle,.orbits,.glow,.snowfx,.black,.flash,.dial,.puppets,.thread,.lock,.banner,.night,.sign{display:none}
   .plate{opacity:1}.plate .day,#ai .day,.goldcity{opacity:1}
   #ai .thread-ui{opacity:1;position:relative}
   .heroin{position:relative}

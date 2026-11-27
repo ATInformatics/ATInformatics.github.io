@@ -12,6 +12,13 @@
   }
   function apply(c) {
     root.classList.toggle("gbp", c === "gbp");
+    // one price in the text: euro by default, the pound figure kept in data-gbp (build.py one_currency)
+    var ps = document.querySelectorAll(".cur[data-gbp]");
+    for (var j = 0; j < ps.length; j++) {
+      var p = ps[j];
+      if (p.dataset.eur === undefined) p.dataset.eur = p.innerHTML;
+      p.innerHTML = c === "gbp" ? p.dataset.gbp : p.dataset.eur;
+    }
     var bs = document.querySelectorAll(".curswitch button");
     for (var i = 0; i < bs.length; i++) bs[i].setAttribute("aria-pressed", bs[i].getAttribute("data-cur") === c ? "true" : "false");
   }
