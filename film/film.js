@@ -170,15 +170,15 @@
 
     // ---- 02: shorter; the conversation and the owner's alert come early ----
     s = S(ai);
-    aiStage.style.setProperty("--dy", (still ? 1 : 1 - ease(band(s, 0.3, 0.62))).toFixed(3));
-    aiStage.style.setProperty("--sg", (still ? 1 : ease(band(s, 0.62, 0.84))).toFixed(3));
-    var lights = still || s >= 0.88;
+    aiStage.style.setProperty("--dy", (still ? 1 : 1 - ease(band(s, 0.3, 0.55))).toFixed(3));
+    aiStage.style.setProperty("--sg", (still ? 1 : ease(band(s, 0.55, 0.72))).toFixed(3));
+    var lights = still || s >= 0.74;
     if (lights !== state.lights) { state.lights = lights; ai.classList.toggle("lights", lights); }
-    aiStage.style.setProperty("--bk", lights ? "0" : (0.75 * band(s, 0.62, 0.84)).toFixed(3));
-    var up = ease(band(s, 1.16, 1.34)) * (1 - ease(band(s, 2.22, 2.42)));
+    aiStage.style.setProperty("--bk", lights ? "0" : (0.75 * band(s, 0.55, 0.72)).toFixed(3));
+    var up = ease(band(s, 0.95, 1.08)) * (1 - ease(band(s, 1.72, 1.88)));
     phone.style.setProperty("--y", (still ? 0 : (1 - up) * 120).toFixed(2));
-    ai.classList.toggle("dim", up > 0 || s >= 2.4);
-    ai.classList.toggle("opened", still || s >= 1.5);
+    ai.classList.toggle("dim", up > 0 || s >= 1.86);
+    ai.classList.toggle("opened", still || s >= 1.18);
 
     // ---- 03 ----
     s = S(big);
@@ -206,7 +206,7 @@
 
     // ---- the thread: dots sit where each module really is ----
     if (thread) {
-      var start = web.offsetTop, end = big.offsetTop + 2.6 * vh;
+      var start = web.offsetTop, end = big.offsetTop + 2.3 * vh;
       thread.classList.toggle("on", y < talk.offsetTop + vh * 0.3);
       fill.style.height = (clamp((y - start) / (end - start)) * 100).toFixed(1) + "%";
       [[web, 0.4], [ai, 0.4], [big, 0.4]].forEach(function (d) {

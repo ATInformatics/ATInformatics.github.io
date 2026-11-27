@@ -242,7 +242,14 @@ p{margin:0}
 .pricenote{margin-top:var(--s5);color:var(--ink-soft);font-size:.92rem;max-width:var(--measure)}
 
 /* ───────────────────────────── contact ───────────────────────────── */
-.contact{padding:var(--s8) 0;border-top:1px solid var(--border);text-align:center}
+.contact{padding:var(--s6) 0;border-top:1px solid var(--border);text-align:center}
+/* 2026-11-27 his call: half the band. Wide screens: the words left, the form right */
+@media (min-width:900px){
+  .contact .wrap{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--s6);align-items:center;text-align:left}
+  .contact .wrap>*{grid-column:1}
+  .contact .wrap>form{grid-column:2;grid-row:1 / span 4;margin:0 !important;max-width:none !important}
+  .contact .lede,.contact .mailrow{margin-left:0 !important;margin-right:0 !important}
+}
 .contact .lede{margin:var(--s4) auto 0}
 .mailrow{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);
   margin-top:var(--s6);flex-wrap:wrap;text-align:left}
