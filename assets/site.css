@@ -634,3 +634,27 @@ html.gbp .c-eur{display:none}
 @media (max-width:900px){.journey-ai{grid-template-columns:1fr 1fr}.jstep:nth-child(2)::after{display:none}.idents{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.journey-ai{grid-template-columns:1fr}.jstep::after{display:none}.idents{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.shots img{animation:none}.shots img:first-child{opacity:1}}
+
+/* ───────────── one system (2026-11-27): the four services as connected parts ───────────── */
+.system{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:var(--s4) 0}
+.systrack{position:absolute;left:12%;right:12%;top:27px;height:2px;background:linear-gradient(90deg,var(--primary),#e9c46a,var(--primary));opacity:.55}
+.sysnode{position:relative;display:flex;flex-direction:column;gap:8px;padding:0 4px 8px;color:inherit;text-decoration:none}
+.sysdot{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--primary);
+  font:800 18px/1 var(--font,Manrope),sans-serif;color:var(--primary);margin-bottom:6px;transition:background .3s,color .3s,transform .3s}
+.syskick{font-size:12px;color:var(--muted)}
+.sysnode b{font-size:clamp(1.15rem,1.6vw,1.45rem);line-height:1.2;letter-spacing:-.02em}
+.sysline{color:var(--muted);font-size:15px;line-height:1.45}
+.sysnode .go{margin-top:auto}
+@media (hover:hover){.sysnode:hover .sysdot{background:var(--primary);color:var(--on-primary);transform:scale(1.06)}}
+.system.compact{margin-top:var(--s3)}.system.compact .sysdot{width:40px;height:40px;font-size:14px}.system.compact .systrack{top:19px}
+.system.compact b{font-size:16px}
+@media (max-width:760px){
+  .system{grid-template-columns:1fr;gap:0}
+  .systrack{left:27px;right:auto;top:20px;bottom:20px;width:2px;height:auto;background:linear-gradient(180deg,var(--primary),#e9c46a,var(--primary))}
+  .sysnode{display:grid;grid-template-columns:56px 1fr;column-gap:16px;padding:0 0 22px}.sysnode>*:not(.sysdot){grid-column:2}.sysdot{grid-row:1 / span 4}
+  .system.compact .sysnode{grid-template-columns:40px 1fr}.system.compact .systrack{left:19px}
+}
+.fromrow{padding-top:0}
+.from{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 0 var(--s6);padding:18px 22px;border:1px solid var(--border);border-radius:14px}
+.from b{font-size:20px}.fromnote{color:var(--muted);font-size:15px;flex:1 1 260px}.from .navcta{margin:0}
+.syslabel{color:var(--primary)}

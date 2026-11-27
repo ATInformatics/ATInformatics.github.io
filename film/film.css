@@ -231,3 +231,17 @@
   #ai .thread-ui{opacity:1;position:relative}
   .heroin{position:relative}
 }
+
+/* after 03 (2026-11-27): the four services as one system on his ivory paper, the folded card below */
+.homesys{position:absolute;z-index:7;left:50%;top:calc(var(--navh) + 4vh);width:min(1100px,92vw);translate:-50% 12px;opacity:0;
+  transition:opacity .5s ease,translate .5s ease;pointer-events:none;color:#1d1708}
+.homesys.on{opacity:1;translate:-50% 0;pointer-events:auto}
+.homesys .kick{color:#7a5a12;text-align:center}
+.homesys .system{margin:0}.homesys .sysdot{background:#f6f0e2}
+#talk .talkcard{top:auto;bottom:7vh;translate:-50% 12px}
+#talk .talkcard.on{translate:-50% 0}
+@media (max-width:760px){
+  .homesys .sysline{display:none}.homesys .sysnode{padding-bottom:12px}.homesys .sysnode b{font-size:15px}
+  .homesys .go{display:none}
+  #talk .talkcard{bottom:4vh;padding:22px 18px 24px}#talk .talkcard h2{font-size:1.9rem}
+}
