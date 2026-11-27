@@ -89,13 +89,31 @@ p{margin:0}
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .nav .brand{font-weight:800;font-size:14px;letter-spacing:-.02em;white-space:nowrap}
 .nav .brand .dot{color:var(--primary)}
+.navpanel{display:flex;align-items:center;gap:var(--s5);margin-left:auto}
 .nav ul{margin:0 0 0 auto;padding:0;display:flex;gap:var(--s5);list-style:none;flex-wrap:wrap}
 .nav a{font-size:13.5px;color:var(--muted);transition:color .2s}
 .nav a[aria-current="page"]{color:var(--text)}
 @media (hover:hover) and (pointer:fine){ .nav a:hover{color:var(--text)} }
-@media (max-width:1000px){   /* was 620: tablets wrapped the menu over the page title (measured 2026-11-25) */
-  .nav{gap:var(--s3) var(--s4);flex-wrap:wrap;padding-bottom:12px}
-  .nav ul{margin-left:0;width:100%;gap:var(--s4)}
+/* 2026-11-27 his call: on phones and tablets the menu was three rows over the first page. Now: name + ☰,
+   and a side menu with every page, the call button and the currency at the bottom. */
+.navtoggle{display:none;margin-left:auto;width:44px;height:44px;border:0;background:transparent;cursor:pointer;padding:10px;flex-direction:column;justify-content:center;gap:5px}
+.navtoggle span{display:block;height:2px;border-radius:2px;background:var(--text);transition:transform .25s,opacity .25s}
+.navtoggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.navtoggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.navtoggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navshade{position:fixed;inset:0;z-index:88;background:rgba(20,16,8,.35)}
+@media (max-width:1000px){
+  .nav{padding-top:8px;padding-bottom:8px;backdrop-filter:none;-webkit-backdrop-filter:none;background:#f2ece0}   /* a blur would trap the fixed side menu inside the bar */
+  .navtoggle{display:flex;position:relative;z-index:92}
+  .navpanel{position:fixed;top:0;right:0;bottom:0;z-index:91;width:min(320px,84vw);margin:0;padding:84px 28px 28px;
+    flex-direction:column;align-items:stretch;gap:var(--s4);background:#f5efe3;box-shadow:-20px 0 50px rgba(40,30,10,.18);
+    transform:translateX(105%);transition:transform .3s cubic-bezier(.3,.8,.3,1);overflow-y:auto}
+  .nav.open .navpanel{transform:none}
+  .nav ul{flex-direction:column;flex-wrap:nowrap;margin:0;width:auto;gap:2px}
+  .nav ul li.nav-wide{display:block}
+  .nav ul a{display:block;padding:11px 0;font-size:18px;color:var(--text);border-bottom:1px solid var(--border)}
+  .nav .navcta{margin:var(--s3) 0 0;text-align:center;font-size:15px;padding:13px 18px}
+  .nav .navcur{order:3;margin:auto 0 0;padding-top:var(--s4)}
 }
 @media (max-width:1280px){ .nav li.nav-wide{display:none} }   /* Lab + Security: footer only below 1280 px (7 items + switch + button do not fit one row) */
 
@@ -420,12 +438,18 @@ tr:last-child td{border-bottom:0}
 .navcta{display:inline-block;margin-left:var(--s4);padding:9px 16px;border-radius:999px;
   background:var(--primary);color:var(--on-primary)!important;font-size:13.5px;font-weight:700;white-space:nowrap}
 .herocta{margin:var(--s4) 0 0 0;font-size:15px;padding:12px 20px}
-@media (max-width:1000px){ .nav .navcta{margin-left:auto} .pagehead{padding-top:10rem} }   /* was 620, with the menu rule above */
+@media (max-width:1000px){ .pagehead{padding-top:7rem} }   /* 2026-11-27: one slim bar now (was 10rem for a 3-row menu) */
 /* currency: euro by default; html.gbp (set by currency.js) shows pounds */
 .c-gbp{display:none}
 html.gbp .c-gbp{display:inline}
 html.gbp .c-eur{display:none}
 .curswitch{display:inline-flex;gap:4px;margin-left:6px;vertical-align:middle}
+/* the top-bar switch: two quiet signs, the chosen one underlined (2026-11-27) */
+.navcur{align-items:center;gap:2px;margin-left:0}
+.navcur .curlabel{font-size:12px;color:var(--muted);margin-right:4px}
+@media (min-width:1001px){.navcur .curlabel{display:none}}
+.nav .navcur button{border:0;background:transparent;padding:4px 5px;font-size:13px;color:var(--muted);border-radius:0;border-bottom:1.5px solid transparent}
+.nav .navcur button[aria-pressed="true"]{background:transparent;color:var(--text);border-bottom-color:var(--primary)}
 .curswitch button{font:inherit;font-size:13px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--fg,inherit);cursor:pointer}
 .curswitch button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
 /* 2026-11-16 homepage brief */

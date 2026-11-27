@@ -47,3 +47,17 @@
     }
   }, true);
 })();
+
+// The side menu on phones (2026-11-27): the ☰ button opens it; a tap outside, a link or Escape closes it.
+(function () {
+  var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".navtoggle"), shade = document.querySelector(".navshade");
+  if (!btn) return;
+  function set(open) {
+    nav.classList.toggle("open", open); btn.setAttribute("aria-expanded", open ? "true" : "false");
+    if (shade) shade.hidden = !open; document.documentElement.style.overflow = open ? "hidden" : "";
+  }
+  btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+  if (shade) shade.addEventListener("click", function () { set(false); });
+  nav.querySelectorAll(".navpanel a").forEach(function (a) { a.addEventListener("click", function () { set(false); }); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+})();
