@@ -566,3 +566,40 @@ html.gbp .c-eur{display:none}
 .mailfloat{position:fixed;left:20px;bottom:20px;z-index:40;font-size:14px;line-height:1.4;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:9px 14px}
 .mailfloat:hover{border-color:var(--primary)}
 @media (max-width:700px){.mailfloat{display:none}}   /* on a phone it sat under the chat button; the email is in the footer */
+
+/* ───────────── service pages: one picture first (2026-11-27) ───────────── */
+.showcase{margin:0}
+.browser{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 30px 70px rgba(40,30,10,.18);background:#111}
+.browser .bar{display:flex;align-items:center;gap:7px;margin:0;padding:10px 14px;background:#ede6d9;border-bottom:1px solid var(--border)}
+.browser .bar i{width:11px;height:11px;border-radius:50%;background:#d6cfc2}
+.browser .bar span{margin-left:12px;font-size:12px;color:var(--muted);background:#f7f2e8;border-radius:6px;padding:3px 14px}
+.shots{position:relative;aspect-ratio:16/10}
+.shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:shotcycle 12s infinite}
+.shots img:nth-child(2){animation-delay:4s}.shots img:nth-child(3){animation-delay:8s}
+@keyframes shotcycle{0%{opacity:0}6%,33%{opacity:1}40%,100%{opacity:0}}
+.showcase figcaption{margin-top:14px;font-size:16px}
+.journey-ai{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:none}
+.jstep{position:relative;transition-delay:calc(var(--i) * .15s)}
+.jstep:not(:last-child)::after{content:"";position:absolute;right:-13px;top:92px;width:10px;height:10px;border-top:2px solid var(--primary);border-right:2px solid var(--primary);rotate:45deg}
+.jn{color:var(--primary);margin:0 0 8px;font-size:12px}
+.jcard{min-height:150px;padding:18px;border-radius:22px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;
+  box-shadow:0 14px 34px rgba(40,30,10,.1);font-family:-apple-system,"SF Pro Text",Manrope,system-ui,sans-serif}
+.jt{margin:12px 0 0;font-weight:600}
+.jb{margin:0;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.3;max-width:92%}
+.jb.in{background:#e9e9eb;color:#000;border-bottom-left-radius:6px}
+.jb.out{background:#34c759;color:#fff;border-bottom-right-radius:6px;margin-left:auto}
+.jsave{margin:0;display:flex;flex-direction:column;gap:6px;width:100%}
+.jsave b{font-size:18px}.jsave span{font-size:14px;color:var(--muted);border-top:1px solid var(--border);padding-top:6px}
+.jalert{margin:0;display:flex;gap:12px;align-items:center;width:100%;padding:12px;border-radius:18px;background:rgba(240,240,243,.95)}
+.jalert i{flex:none;width:36px;height:36px;border-radius:9px;background:linear-gradient(180deg,#e9c46a,#a07a1c);color:#1a1406;font:800 17px/36px Manrope,system-ui;text-align:center;font-style:normal}
+.jalert span{font-size:14px;line-height:1.3}.jalert b{display:block}
+.journey-ai+.sample{margin-top:12px;font-size:12px;color:var(--muted)}
+.idents{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ident{margin:0;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.ident img{display:block;width:100%;height:auto}
+.ident figcaption{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid var(--border)}
+.ident .sw{display:flex;gap:6px}.ident .sw i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.08)}
+@media (hover:hover){.ident:hover{transform:translateY(-4px);box-shadow:0 20px 44px rgba(40,30,10,.14)}}
+@media (max-width:900px){.journey-ai{grid-template-columns:1fr 1fr}.jstep:nth-child(2)::after{display:none}.idents{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.journey-ai{grid-template-columns:1fr}.jstep::after{display:none}.idents{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.shots img{animation:none}.shots img:first-child{opacity:1}}
